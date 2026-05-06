@@ -1,9 +1,15 @@
+## Design Evolution
+
+The project was initially planned as a Monopoly-style banking system with property tracking.
+
+During development, the scope was refined to focus on a transactional banking backend. Because my primary objective was to create an application that demonstrates core backend concepts such as atomic transactions, data consistency, and authentication; therefore, I ultimately decided to avoid all unnecessary domain complexity.  
+As a result, property tracking and other gameplay-oriented systems were removed from scope.
+
+---
+
 # Banking Backend: Plan
 
-> **Project Goal:** A transactional banking backend to model transactional systems involving multiple users, balances, and ownership, using Monopoly-style interactions as a test scenario.
-
-Not to support full Monopoly gameplay.  
-Nor to simulate Monopoly.
+> **Project Goal:** A transactional banking backend to model transactional systems involving multiple users, balances, and financial transactions; with support for simulated peer-to-peer banking interactions.
 
 ---
 
@@ -11,6 +17,7 @@ Nor to simulate Monopoly.
 * [Objectives](#objectives)
 * [Target Features](#target-features)
 * [Database Schema](#database-schema)
+* [Completion Criteria](#completion-criteria)
 * [Progress Tracking](#progress-tracking)
 * [System Constraints](#system-constraints)
 * [Appendix: Design Decisions](#appendix-design-decisions)
@@ -19,9 +26,6 @@ Nor to simulate Monopoly.
 
 ### Objectives
 The aim of the project is to make a transactional banking system that uses databases to store the information.  
-To bring purpose to this system I will design it, so that, it can support Monopoly-style interactions.  
-
-This project will **not** simulate the game.
 
 **Core Features:**
 * **Account Storage:** 
@@ -29,12 +33,8 @@ This project will **not** simulate the game.
     * Hashed passwords.
     * Real-time balances.
 * **Transfers:** 
-    * Player-to-player payments.
-    * Bank-to-player payments. [^1](#1-bank-to-player-payouts)
-* **Property Tracking:** [^2](#2-property-sets-and-houses)
-    * Buying.
-    * Trading between users.
-    * Mortgaging assets.
+    * Peer-to-Peer payments.
+    * Bank-to-Peer payments.
 
 ---
 
@@ -54,19 +54,13 @@ Move money between users (must be atomic)
 ---
 
 ### Database Schema
-Users:
+#### Users:
 * id
 * username (unique)
 * password_hash
 * balance
 
-Properties:
-* id
-* name
-* value
-* owner_id (foreign key -> users.id)
-
-Transactions:
+#### Transactions:
 * id
 * sender_id
 * receiver_id
@@ -76,35 +70,56 @@ Transactions:
 ---
 
 ### Progress Tracking
-- [ ] Phase 1: Core Structure
-    - [ ] Define Database Schema
-    - [ ] "Users"
-    - [ ] Authentication
-    - [ ] Banking and Balance
-    - [ ] Logic for P2P Transfers
-- [ ] Phase 2: Properties
-    - [ ] "Properties" - rent per house, cost of house
-    - [ ] Mortgaging properties
-    - [ ] Houses [^3](#3-maximum-house-number)
-- [ ] Phase 3: Sessions
-    - [ ] Allow for a game session to be created
-    - [ ] Reset/Start system
-- [ ] (extra) Phase 4: Additional features
-    - [ ] Auctions
-    - [ ] A communication system to support trades
 
-> Plans might change as the app is designed with inspiration to Monopoly, however supporting full Monopoly-like gameplay is not my primary objective.
+- [ ] Phase 1: Core Backend
+    - [ ] Define database schema
+    - [ ] Create users table
+    - [ ] User registration
+    - [ ] User authentication
+    - [ ] Balance management
+    - [ ] Atomic peer-to-peer transfers
 
-Phase 1 is complete when:
+- [ ] Phase 2: Transaction System
+    - [ ] Transaction history table
+    - [ ] Store transfer timestamps
+    - [ ] Transaction validation
+    - [ ] Prevent invalid transfers
+    - [ ] Balance consistency checks
+
+- [ ] Phase 3: API & Interface
+    - [ ] Improve API structure
+    - [ ] Error handling
+    - [ ] Simple frontend interface (Tkinter or HTML)
+    - [ ] Display balances and transfer history
+
+- [ ] (Extra) Phase 4: Additional Features
+    - [ ] Rate limiting
+    - [ ] Admin account functionality
+    - [ ] Logging and audit improvements
+
+> The project scope may evolve during development; however, the primary objective remains a reliable transactional backend system focused on authentication, data consistency, and atomic financial transfers.
+
+---
+
+### Completion Criteria
+
+#### Phase 1 is complete when:
 - users can register and login
+- passwords are hashed securely
 - authentication is enforced
-- money can be transferred correctly
-- balances remain consistent
-Phase 2 is complete when:
-- properties can be bought
-- users are deducted the correct amount for properties
-- test: 2 users cannot own the same property
-*Phase 3 and 4 coming in the future*
+- money transfers function correctly
+- balances remain consistent after transfers
+
+#### Phase 2 is complete when:
+- all transfers are logged
+- transaction history can be queried
+- invalid transfers are rejected
+- transaction timestamps are stored correctly
+
+#### Phase 3 is complete when:
+- users can interact with the system through a simple interface
+- balances and transactions are displayed clearly
+- API responses are handled correctly by the frontend
 
 ---
 
@@ -117,17 +132,6 @@ Phase 2 is complete when:
 
 ### Appendix: Design Decisions
 
-#### [^1]: Bank-to-player payouts
-In the traditional game players gain M200 for passing "GO".  
-This will not be implemented as it focuses too much on the game, over my original goal of a backend banking system.
-
-#### [^2]: Property Sets and Houses
-Basic owneship and optional attributes (house count, sets) will be tracked.  
-The purpose of the App is **not** to fully support the gameplay.
-
-#### [^3]: Maximum House Number
-In the traditional game there are 32 houses and 12 hotels.  
-I plan to keep the same constraints.
 
 ---
 [↑ Back to Top](#banking-backend-plan)
