@@ -72,10 +72,10 @@ Move money between users (must be atomic)
 ### Progress Tracking
 
 - [ ] Phase 1: Core Backend
-    - [ ] Define database schema
-    - [ ] Create users table
-    - [ ] User registration
-    - [ ] User authentication
+    - [x] Define database schema
+    - [x] Create users table
+    - [x] User registration
+    - [x] User authentication
     - [ ] Balance management
     - [ ] Atomic peer-to-peer transfers
 
