@@ -28,7 +28,7 @@ def create_database():
 
 
 def create_user(username: str, password_hash: str):
-    """ Creates a user, if username already exists
+    """Creates a user, if username already exists
     retun sqlite.IntegrityError
     else return None
     """
@@ -52,7 +52,7 @@ def create_user(username: str, password_hash: str):
 
 
 def get_user_by_username(username: str):
-    """ Finds user in database by username
+    """Finds user in database by username
     returns user
     if not found returns None
     """
@@ -108,6 +108,7 @@ if __name__ == "__main__":
     create_user(username, password)
 
     user = get_user_by_username(username)
+    print(user["password_hash"])
     print(user["balance"])
 
     print(get_user_by_username("not_in_the_database"))
