@@ -70,20 +70,32 @@ def get_user_by_username(username: str):
     return user
 
 
-def update_balance(username: str, new_balance: int):
-    connection = get_connection()
-    cursor = connection.cursor()
+def execute_transfer(sender: str, sender_new_balance: int, reciver: str, reciver_new_balance: int) -> bool:
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
 
-    cursor.execute("""
-    UPDATE users
-    SET balance = ?
-    WHERE username = ?
-    """, (new_balance, username))
+        cursor.execute("""
+        UPDATE users
+        SET balance = ?
+        WHERE username = ?
+        """, (sender_new_balance, sender))
 
-    connection.commit()
-    connection.close()
+        cursor.execute("""
+        UPDATE users
+        SET balance = ?
+        WHERE username = ?
+        """, (reciver_new_balance, reciver))
 
-    print(f"{username}'s balance updated to {new_balance}")
+        connection.commit()
+        return True
+
+    except Exception:
+        connection.rollback()
+        return False
+
+    finally:
+        connection.close()
 
 
 def delete_user(username: str):
@@ -100,6 +112,7 @@ def delete_user(username: str):
 
     print(f"User '{username}' deleted.")
 
+
 if __name__ == "__main__":
     create_database()
 
@@ -108,13 +121,10 @@ if __name__ == "__main__":
     create_user(username, password)
 
     user = get_user_by_username(username)
+    print(f"{user["id"]}: {user["username"]}")
     print(user["password_hash"])
     print(user["balance"])
 
     print(get_user_by_username("not_in_the_database"))
-
-    update_balance(username, 2000)
-    user = get_user_by_username(username)
-    print(user["balance"])
 
     delete_user(username)
