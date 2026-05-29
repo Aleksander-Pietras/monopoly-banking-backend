@@ -77,7 +77,7 @@ Move money between users (must be atomic)
     - [x] User registration
     - [x] User authentication
     - [ ] Balance management
-    - [ ] Atomic peer-to-peer transfers
+    - [x] Atomic peer-to-peer transfers
 
 - [ ] Phase 2: Transaction System
     - [ ] Transaction history table
